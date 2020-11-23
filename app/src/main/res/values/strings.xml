@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">PrawaJazdy</string>
+    <string name="register_to_prawa_jazdy_app">Register in Prawa Jazdy App</string>
+    <string name="login_to_prawa_jazdy_app">Login in Prawa Jazdy App</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login_to_the_app">Login to the app</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="do_not_have_an_account">Do not have an account yet?</string>
+    <string name="already_has_an_account">Already has an account?</string>
+    <string name="phone_number">Phone number</string>
+    <string name="logout">Logout</string>
 </resources>
