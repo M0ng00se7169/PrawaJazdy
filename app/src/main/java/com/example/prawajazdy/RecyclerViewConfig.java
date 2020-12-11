@@ -56,8 +56,7 @@ public class RecyclerViewConfig {
             this.mPytaniaList = pytanies;
             this.mKeys = mKeys;
         }
-
-
+        
         @NonNull
         @Override
         public PytanieItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
