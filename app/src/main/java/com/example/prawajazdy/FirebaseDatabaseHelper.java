@@ -14,7 +14,7 @@ import java.util.List;
 public class FirebaseDatabaseHelper {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mDatabaseReference;
-    private List<Pytanie> pytania = new ArrayList<>();
+    public static ArrayList<Pytanie> pytania = new ArrayList<>();
 
     public interface DataStatus {
         void DataIsLoaded(List<Pytanie> pytania, List<String> keys);

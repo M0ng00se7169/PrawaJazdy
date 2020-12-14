@@ -1,5 +1,6 @@
 package com.example.prawajazdy;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -40,10 +41,16 @@ public class RecyclerViewConfig {
             odpowiedzC = (TextView) itemView.findViewById(R.id.odpowiedzC);
         }
 
+        @SuppressLint("SetTextI18n")
         public void bind(Pytanie object, String key) {
             pytanie.setText(object.getPytanie());
-            odpowiedzA.setText(object.getOdpowiedz_A());
-            odpowiedzB.setText(object.getOdpowiedz_B());
+            if (object.getOdpowiedz_A().equals("") && object.getOdpowiedz_B().equals("") && object.getOdpowiedz_C().equals("")) {
+                odpowiedzA.setText("Tak");
+                odpowiedzB.setText("Nie");
+            } else {
+                odpowiedzA.setText(object.getOdpowiedz_A());
+                odpowiedzB.setText(object.getOdpowiedz_B());
+            }
             odpowiedzC.setText(object.getOdpowiedz_C());
             this.key = key;
         }
