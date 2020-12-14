@@ -1,5 +1,6 @@
 package com.example.prawajazdy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
@@ -14,6 +15,12 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,16 +54,15 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void getQuestionsList() {
-        questionList = new ArrayList<>();
 
-        questionList.add(new Pytanie("", "1", "a", "b", "c", "c", "pytanie 1"));
-        questionList.add(new Pytanie("", "2", "a", "b", "c", "b", "pytanie 2"));
-        questionList.add(new Pytanie("", "3", "a", "b", "c", "c", "pytanie 3"));
-        questionList.add(new Pytanie("", "4", "a", "b", "c", "a", "pytanie 4"));
-        questionList.add(new Pytanie("", "5", "a", "b", "c", "a", "pytanie 5"));
+        try {
+            questionList = MenuActivity.questionList.subList(0, 10);
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         setQuestion();
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -64,6 +70,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         timer.setText(String.valueOf(10));
 
         question.setText(questionList.get(0).getPytanie());
+
         option1.setText(questionList.get(0).getOdpowiedz_A());
         option2.setText(questionList.get(0).getOdpowiedz_B());
         option3.setText(questionList.get(0).getOdpowiedz_C());
@@ -73,6 +80,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         startTimer();
 
         quesNum = 0;
+
+        System.out.println(MenuActivity.questionList.size());
     }
 
     private void startTimer() {
@@ -123,15 +132,19 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             ((Button)view).setBackgroundTintList(ColorStateList.valueOf(Color.RED));
 
             switch (questionList.get(quesNum).getPoprawna_odp()) {
-                case "a":
+                case "A":
+                case "T":
                     option1.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
                     break;
-                case "b":
+                case "B":
+                case "N":
                     option2.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
                     break;
-                case "c":
+                case "C":
                     option3.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
                     break;
+
+
             }
         }
 
@@ -175,6 +188,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
                     }
 
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         if(value == 0) {
@@ -183,13 +197,28 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                                     ((TextView)view).setText(questionList.get(quesNum).getPytanie());
                                     break;
                                 case 1:
-                                    ((Button)view).setText(questionList.get(quesNum).getOdpowiedz_A());
+                                    if (questionList.get(quesNum).getOdpowiedz_A().equals("")) {
+                                        ((Button)view).setText("Tak");
+
+                                    } else {
+                                        ((Button)view).setText(questionList.get(quesNum).getOdpowiedz_A());
+                                    }
                                     break;
                                 case 2:
-                                    ((Button)view).setText(questionList.get(quesNum).getOdpowiedz_B());
+                                    if (questionList.get(quesNum).getOdpowiedz_B().equals("")) {
+                                        ((Button)view).setText("Nie");
+
+                                    } else {
+                                        ((Button)view).setText(questionList.get(quesNum).getOdpowiedz_B());
+                                    }
                                     break;
                                 case 3:
-                                    ((Button)view).setText(questionList.get(quesNum).getOdpowiedz_C());
+                                    if (questionList.get(quesNum).getOdpowiedz_C().equals("")) {
+                                        ((Button)view).setVisibility(View.INVISIBLE);
+                                    } else {
+                                        ((Button)view).setText(questionList.get(quesNum).getOdpowiedz_C());
+                                        ((Button)view).setVisibility(View.VISIBLE);
+                                    }
                                     break;
                             }
 
