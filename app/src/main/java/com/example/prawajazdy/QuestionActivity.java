@@ -1,12 +1,14 @@
 package com.example.prawajazdy;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -14,29 +16,37 @@ import android.os.Handler;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView question, qCount, timer;
     private Button option1, option2, option3;
+    private ImageView obrazek;
     private List<Pytanie> questionList;
     private int quesNum;
     private CountDownTimer countDown;
+    private String media;
+
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
+        storage = FirebaseStorage.getInstance();
 
         question = findViewById(R.id.question);
         qCount = findViewById(R.id.quest_num);
@@ -45,6 +55,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         option1 = findViewById(R.id.option1);
         option2 = findViewById(R.id.option2);
         option3 = findViewById(R.id.option3);
+        obrazek = findViewById(R.id.image);
 
         option1.setOnClickListener(this);
         option2.setOnClickListener(this);
@@ -67,28 +78,27 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     @SuppressLint("SetTextI18n")
     private void setQuestion() {
-        timer.setText(String.valueOf(10));
+        timer.setText(String.valueOf(20));
 
         question.setText(questionList.get(0).getPytanie());
 
         option1.setText(questionList.get(0).getOdpowiedz_A());
         option2.setText(questionList.get(0).getOdpowiedz_B());
         option3.setText(questionList.get(0).getOdpowiedz_C());
+        media = questionList.get(0).getMedia();
 
         qCount.setText(1 + "/" + questionList.size());
 
         startTimer();
 
         quesNum = 0;
-
-        System.out.println(MenuActivity.questionList.size());
     }
 
     private void startTimer() {
-        countDown = new CountDownTimer(12000, 1000) {
+        countDown = new CountDownTimer(22000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if(millisUntilFinished < 10000)
+                if(millisUntilFinished < 20000)
                     timer.setText(String.valueOf(millisUntilFinished / 1000));
             }
 
@@ -163,10 +173,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             playAnim(option1,0,1);
             playAnim(option2,0,2);
             playAnim(option3,0,3);
+            playAnim(obrazek, 0, 4);
 
             qCount.setText((quesNum+1) + "/" + (questionList.size()));
 
-            timer.setText(String.valueOf(10));
+            timer.setText(String.valueOf(20));
             startTimer();
 
         }
@@ -220,14 +231,16 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                                         ((Button)view).setVisibility(View.VISIBLE);
                                     }
                                     break;
+                                case 4:
+                                    fetchImage(questionList.get(quesNum).getMedia());
+                                    break;
                             }
 
                             if(viewNum != 0)
-                                ((Button)view).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E99C03")));
+                                (view).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E99C03")));
 
 
                             playAnim(view,1,viewNum);
-
                         }
 
                     }
@@ -242,5 +255,23 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
                     }
                 });
+    }
+
+    public void fetchImage(String namePath) {
+        storageReference = storage.getReferenceFromUrl("gs://naukaprawjazdy.appspot.com/").child(namePath.equals("") ? "1" : namePath);
+        System.out.println(namePath);
+        try {
+            File file = File.createTempFile("image", "jpg");
+            storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    obrazek.setImageBitmap(bitmap);
+                }
+            });
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
     }
 }

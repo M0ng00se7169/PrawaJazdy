@@ -55,7 +55,7 @@
         app:layout_constraintVertical_bias="0.056" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/obrazek"
         android:layout_width="218dp"
         android:layout_height="147dp"
         app:layout_constraintBottom_toTopOf="@+id/odpowiedzA"

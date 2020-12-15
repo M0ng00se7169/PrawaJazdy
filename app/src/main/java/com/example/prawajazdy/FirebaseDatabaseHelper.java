@@ -34,7 +34,7 @@ public class FirebaseDatabaseHelper {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 pytania.clear();
                 List<String> keys = new ArrayList<>();
-
+                String message = snapshot.child("media").getValue(String.class);
                 for (DataSnapshot keyNode : snapshot.getChildren()) {
                     keys.add(keyNode.getKey());
                     Pytanie pytanie = keyNode.getValue(Pytanie.class);
