@@ -37,6 +37,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private int quesNum;
     private CountDownTimer countDown;
     private String media;
+    int score;
+    int wrongAnswers;
+
 
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -60,6 +63,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         option1.setOnClickListener(this);
         option2.setOnClickListener(this);
         option3.setOnClickListener(this);
+
+        score = 0;
+        wrongAnswers = 0;
 
         getQuestionsList();
     }
@@ -135,27 +141,30 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private void checkAnswer(String selectedOption, View view) {
         if(selectedOption.equals(questionList.get(quesNum).getPoprawna_odp())) {
             //Right Answer
+            score++;
             ((Button)view).setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+            System.out.println(score);
         }
         else {
             //Wrong Answer
             ((Button)view).setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-
             switch (questionList.get(quesNum).getPoprawna_odp()) {
                 case "A":
                 case "T":
                     option1.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                    score++;
                     break;
                 case "B":
                 case "N":
                     option2.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                    score++;
                     break;
                 case "C":
                     option3.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                    score++;
                     break;
-
-
             }
+            wrongAnswers++;
         }
 
         Handler handler = new Handler();
@@ -184,9 +193,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         else
         {
             // Go to Score Activity
-            Intent intent = new Intent(QuestionActivity.this, MenuActivity.class);
+            Intent intent = new Intent(QuestionActivity.this, ResultActivity.class);
+            intent.putExtra("WYNIK", String.valueOf(score) + "/" + String.valueOf(questionList.size()));
+            intent.putExtra("ZLE_ODPOWIEDZI", wrongAnswers);
             startActivity(intent);
-            QuestionActivity.this.finish();
         }
     }
 

@@ -9,22 +9,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:backgroundTint="#eee3ee"
+        android:textColor="@color/black"
         android:onClick="egzamin"
-        android:text="@string/egzamin" />
+        android:text="@string/question" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#d2d2d2"
+        android:textColor="@color/black"
         android:layout_weight="1"
         android:onClick="question"
-        android:text="@string/question" />
+        android:text="@string/egzamin" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_weight="1"
+        android:backgroundTint="#e4e4e4"
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="@string/ustawienia" />
 
 </LinearLayout>

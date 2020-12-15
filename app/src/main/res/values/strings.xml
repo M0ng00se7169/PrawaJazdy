@@ -17,5 +17,7 @@
     <string name="egzamin">Egzamin</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="question">Question</string>
+    <string name="question">Pytania</string>
+    <string name="wynik">WYNIK</string>
+    <string name="ustawienia">Ustawienia</string>
 </resources>
