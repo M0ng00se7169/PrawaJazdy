@@ -20,4 +20,10 @@
     <string name="question">Pytania</string>
     <string name="wynik">WYNIK</string>
     <string name="ustawienia">Ustawienia</string>
+    <string name="wr_do_menu">Wróć do menu</string>
+    <string name="zachowaj">Zachowaj</string>
+    <string name="_0">0</string>
+    <string name="_1">1</string>
+    <string name="_10">10</string>
+    <string name="ilo_powt_rze">Ilość powtórzeń</string>
 </resources>

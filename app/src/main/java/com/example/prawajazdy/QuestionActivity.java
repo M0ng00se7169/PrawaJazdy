@@ -171,7 +171,6 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         handler.postDelayed(this::changeQuestion, 2000);
     }
 
-
     @SuppressLint("SetTextI18n")
     private void changeQuestion() {
         if( quesNum < questionList.size() - 1)
@@ -245,11 +244,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                                     fetchImage(questionList.get(quesNum).getMedia());
                                     break;
                             }
-
                             if(viewNum != 0)
                                 (view).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E99C03")));
-
-
                             playAnim(view,1,viewNum);
                         }
 

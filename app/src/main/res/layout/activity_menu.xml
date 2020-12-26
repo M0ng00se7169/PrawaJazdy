@@ -30,6 +30,7 @@
         android:layout_weight="1"
         android:backgroundTint="#e4e4e4"
         android:textColor="@color/black"
+        android:onClick="settings"
         android:layout_height="wrap_content"
         android:text="@string/ustawienia" />
 

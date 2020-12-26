@@ -1,6 +1,7 @@
 package com.example.prawajazdy;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
+
+    public static final int SETTINGS = 1;
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mDatabaseReference;
@@ -55,13 +58,22 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void settings(View view) {
+        Intent intent = new Intent(MenuActivity.this, SettingsActivity.class);
+        Bundle bundle = new Bundle();
+        intent.putExtras(bundle);
+        startActivityForResult(intent, SETTINGS);
+    }
+
      public void getData() {
          mDatabaseReference.addValueEventListener(new ValueEventListener() {
              @Override
              public void onDataChange(@NonNull DataSnapshot snapshot) {
+                 questionList.clear();
                  for (DataSnapshot keyNode : snapshot.getChildren()) {
                      Pytanie pytanie = keyNode.getValue(Pytanie.class);
                      questionList.add(pytanie);
+                     System.out.println();
                  }
              }
 
@@ -73,4 +85,13 @@ public class MenuActivity extends AppCompatActivity {
 
      }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == SETTINGS) {
+            Bundle dane = data.getExtras();
+            int napis1 = dane.getInt("Value");
+            System.out.println("Dane z listy " + napis1);
+        }
+    }
 }
