@@ -32,7 +32,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
     private TextView question, qCount, timer;
     private Button option1, option2, option3;
-    private ImageView obrazek;
+    private ImageView picture;
     private List<Pytanie> questionList;
     private int quesNum;
     private CountDownTimer countDown;
@@ -58,7 +58,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         option1 = findViewById(R.id.option1);
         option2 = findViewById(R.id.option2);
         option3 = findViewById(R.id.option3);
-        obrazek = findViewById(R.id.image);
+        picture = findViewById(R.id.image);
 
         option1.setOnClickListener(this);
         option2.setOnClickListener(this);
@@ -73,7 +73,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private void getQuestionsList() {
 
         try {
-            questionList = MenuActivity.questionList.subList(0, 10);
+            Intent intent = getIntent();
+            Bundle bundle = intent.getExtras();
+            int questionTimes = bundle.getInt("countOfRepeats");
+            int error = bundle.getInt("countOfRepeatsError");
+            int countOfQuestions = bundle.getInt("countOfQuestions");
+            System.out.println("Quiestion " + questionTimes + " Error " + error + " Ilosc pytan " + countOfQuestions);
+            questionList = MenuActivity.questionList.subList(7, 11);
 
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -181,7 +187,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             playAnim(option1,0,1);
             playAnim(option2,0,2);
             playAnim(option3,0,3);
-            playAnim(obrazek, 0, 4);
+            playAnim(picture, 0, 4);
 
             qCount.setText((quesNum+1) + "/" + (questionList.size()));
 
@@ -272,7 +278,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    obrazek.setImageBitmap(bitmap);
+                    picture.setImageBitmap(bitmap);
                 }
             });
         } catch (IOException exception) {

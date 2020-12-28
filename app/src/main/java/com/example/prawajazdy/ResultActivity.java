@@ -25,11 +25,11 @@ public class ResultActivity extends AppCompatActivity {
 
         String score_str = intent.getStringExtra("WYNIK");
         score.setText(score_str);
-        int  wrong_str = intent.getIntExtra("ZLE_ODPOWIEDZI", 0);
-        String notApproved = "Nie zdane! Spróbuj jeszcze raz!";
-        if (wrong_str > 2) {
-            score.setText(notApproved);
-        }
+//        int  wrong_str = intent.getIntExtra("ZLE_ODPOWIEDZI", 0);
+//        String notApproved = "Nie zdane! Spróbuj jeszcze raz!";
+//        if (wrong_str > 2) {
+//            score.setText(notApproved);
+//        }
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override

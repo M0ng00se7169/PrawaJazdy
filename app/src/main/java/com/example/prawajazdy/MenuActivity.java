@@ -5,23 +5,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +28,10 @@ public class MenuActivity extends AppCompatActivity {
     public static List<Pytanie> questionList;
     FirebaseStorage storage;
     StorageReference storageReference;
+
+    int countOfRepeats = 3;
+    int countOfRepeatsError = 3;
+    int countOfQuestions = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +53,11 @@ public class MenuActivity extends AppCompatActivity {
 
     public void question(View view) {
         Intent intent = new Intent(MenuActivity.this, QuestionActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("countOfRepeats", countOfRepeats);
+        bundle.putInt("countOfRepeatsError", countOfRepeatsError);
+        bundle.putInt("countOfQuestions", countOfQuestions);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
@@ -90,8 +93,10 @@ public class MenuActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == SETTINGS) {
             Bundle dane = data.getExtras();
-            int napis1 = dane.getInt("Value");
-            System.out.println("Dane z listy " + napis1);
+            countOfRepeats = dane.getInt("countOfRepeats");
+            countOfRepeatsError = dane.getInt("countOfRepeatsError");
+            countOfQuestions = dane.getInt("countOfQuestions");
+            System.out.println("Dane z listy " + countOfRepeats);
         }
     }
 }
