@@ -26,6 +26,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
@@ -39,7 +41,9 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private String media;
     int score;
     int wrongAnswers;
-
+    int questionTimes;
+    int error;
+    int countOfQuestions;
 
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -75,12 +79,23 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         try {
             Intent intent = getIntent();
             Bundle bundle = intent.getExtras();
-            int questionTimes = bundle.getInt("countOfRepeats");
-            int error = bundle.getInt("countOfRepeatsError");
-            int countOfQuestions = bundle.getInt("countOfQuestions");
-            System.out.println("Quiestion " + questionTimes + " Error " + error + " Ilosc pytan " + countOfQuestions);
-            questionList = MenuActivity.questionList.subList(7, 11);
+            questionTimes = bundle.getInt("countOfRepeats");
+            error = bundle.getInt("countOfRepeatsError");
+            countOfQuestions = bundle.getInt("countOfQuestions");
 
+            System.out.println("Quiestion " + questionTimes + " Error " + error + " Ilosc pytan " + countOfQuestions);
+
+            questionList = MenuActivity.questionList.subList(0, 9);
+            List<Pytanie> lista = new ArrayList<>(questionList.size() * questionTimes);
+            for (Pytanie pytanie : questionList) {
+                for (int i = 0; i < questionTimes; i++) {
+                    lista.add(pytanie);
+                }
+            }
+            Collections.shuffle(lista.subList(1, lista.size()-1));
+            questionList = lista;
+
+            System.out.println("Lista size "  + lista.size());
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -131,25 +146,27 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
         switch (v.getId()) {
             case R.id.option1:
-                selectedOption = "a";
+                selectedOption = !questionList.get(quesNum).getOdpowiedz_A().equals("") ? "A" : "T";
                 break;
             case R.id.option2:
-                selectedOption = "b";
+                selectedOption = !questionList.get(quesNum).getOdpowiedz_A().equals("") ? "B" : "N";
                 break;
             case R.id.option3:
-                selectedOption = "c";
+                selectedOption = "C";
                 break;
+            default:
         }
         countDown.cancel();
         checkAnswer(selectedOption, v);
     }
 
     private void checkAnswer(String selectedOption, View view) {
+
         if(selectedOption.equals(questionList.get(quesNum).getPoprawna_odp())) {
             //Right Answer
             score++;
-            ((Button)view).setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
             System.out.println(score);
+            ((Button)view).setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
         }
         else {
             //Wrong Answer
@@ -158,16 +175,13 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 case "A":
                 case "T":
                     option1.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
-                    score++;
                     break;
                 case "B":
                 case "N":
                     option2.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
-                    score++;
                     break;
                 case "C":
                     option3.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
-                    score++;
                     break;
             }
             wrongAnswers++;
@@ -199,8 +213,11 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
         {
             // Go to Score Activity
             Intent intent = new Intent(QuestionActivity.this, ResultActivity.class);
-            intent.putExtra("WYNIK", String.valueOf(score) + "/" + String.valueOf(questionList.size()));
-            intent.putExtra("ZLE_ODPOWIEDZI", wrongAnswers);
+            Bundle bundle = new Bundle();
+            bundle.putInt("WYNIK", score);
+            bundle.putInt("ZLE_ODPOWIEDZI", wrongAnswers);
+            bundle.putInt("ILOSC", questionList.size());
+            intent.putExtras(bundle);
             startActivity(intent);
         }
     }

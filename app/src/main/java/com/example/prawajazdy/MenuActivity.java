@@ -29,8 +29,8 @@ public class MenuActivity extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
 
-    int countOfRepeats = 3;
-    int countOfRepeatsError = 3;
+    int countOfRepeats = 1;
+    int countOfRepeatsError = 1;
     int countOfQuestions = 10;
 
     @Override

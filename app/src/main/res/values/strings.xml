@@ -29,4 +29,5 @@
     <string name="ilo_powt_rze_po_niepoprawnej_odpowiedzi">Ilość powtórzeń po niepoprawnej odpowiedzi</string>
     <string name="ilo_pyta_w_tescie">Ilość pytań w tescie</string>
     <string name="_50">50</string>
+    <string name="nie_zda_e_spr_buj_jeszcze_raz">Nie zdałeś! Spróbuj jeszcze raz!</string>
 </resources>

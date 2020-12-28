@@ -2,6 +2,7 @@ package com.example.prawajazdy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,8 +12,10 @@ import android.widget.TextView;
 public class ResultActivity extends AppCompatActivity {
 
     private TextView score;
+    private TextView label;
     private Button done;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,16 +23,22 @@ public class ResultActivity extends AppCompatActivity {
 
         score = findViewById(R.id.sa_score);
         done = findViewById(R.id.sa_done);
+        label = findViewById(R.id.textView20);
+
+        label.setVisibility(View.INVISIBLE);
 
         Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
 
-        String score_str = intent.getStringExtra("WYNIK");
-        score.setText(score_str);
-//        int  wrong_str = intent.getIntExtra("ZLE_ODPOWIEDZI", 0);
-//        String notApproved = "Nie zdane! Spróbuj jeszcze raz!";
-//        if (wrong_str > 2) {
-//            score.setText(notApproved);
-//        }
+        int score_str = bundle.getInt("WYNIK");
+        int size = bundle.getInt("ILOSC");
+        int wrong = bundle.getInt("ZLE_ODPOWIEDZI");
+        score.setText(score_str + "/" + size);
+        System.out.println("WYNIK " + score_str);
+
+        if (wrong > 2) {
+            label.setVisibility(View.VISIBLE);
+        }
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
