@@ -10,12 +10,15 @@ import android.content.Intent;
     import android.os.Bundle;
 import android.util.Log;
     import android.view.Menu;
+    import android.view.MenuInflater;
+    import android.view.MenuItem;
     import android.view.View;
     import android.widget.Button;
     import android.widget.EditText;
     import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
+    import android.widget.SearchView;
+    import android.widget.TextView;
 
     import com.google.android.gms.tasks.OnSuccessListener;
     import com.google.firebase.auth.FirebaseAuth;
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     List<Pytanie> pytanieList;
-
+    RecyclerViewConfig.PytaniaAdapter adapter;
     RecyclerView recyclerView;
 
     @Override
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         new FirebaseDatabaseHelper().readPytania(new FirebaseDatabaseHelper.DataStatus() {
             @Override
             public void DataIsLoaded(List<Pytanie> pytania, List<String> keys) {
-                new RecyclerViewConfig().setConfig(recyclerView, MainActivity.this, pytania, keys);
+                adapter = new RecyclerViewConfig().setConfig(recyclerView, MainActivity.this, pytania, keys);
             }
 
             @Override
@@ -82,5 +85,29 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        return true;
     }
 }
