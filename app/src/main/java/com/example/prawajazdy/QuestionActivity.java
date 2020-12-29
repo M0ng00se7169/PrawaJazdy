@@ -1,6 +1,5 @@
 package com.example.prawajazdy;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
@@ -31,7 +30,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
-
     private TextView question, qCount, timer;
     private Button option1, option2, option3;
     private ImageView picture;
@@ -39,6 +37,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     private int quesNum;
     private CountDownTimer countDown;
     private String media;
+
     int score;
     int wrongAnswers;
     int questionTimes;
@@ -75,27 +74,37 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void getQuestionsList() {
-
         try {
             Intent intent = getIntent();
             Bundle bundle = intent.getExtras();
-            questionTimes = bundle.getInt("countOfRepeats");
-            error = bundle.getInt("countOfRepeatsError");
-            countOfQuestions = bundle.getInt("countOfQuestions");
 
-            System.out.println("Quiestion " + questionTimes + " Error " + error + " Ilosc pytan " + countOfQuestions);
-
-            questionList = MenuActivity.questionList.subList(0, 9);
-            List<Pytanie> lista = new ArrayList<>(questionList.size() * questionTimes);
-            for (Pytanie pytanie : questionList) {
-                for (int i = 0; i < questionTimes; i++) {
-                    lista.add(pytanie);
+            if (bundle.getBoolean("Czy_egzamin")) {
+                List<Pytanie> pytania = new ArrayList<>(10);
+                for (int i = 0; i < 10; i++) {
+                    pytania.add(MenuActivity.questionList.get((int)(Math.random() * (MenuActivity.questionList.size() - 1))));
                 }
+                questionList = pytania;
             }
-            Collections.shuffle(lista.subList(1, lista.size()-1));
-            questionList = lista;
+            else {
+                questionTimes = bundle.getInt("countOfRepeats");
+                error = bundle.getInt("countOfRepeatsError");
+                countOfQuestions = bundle.getInt("countOfQuestions");
 
-            System.out.println("Lista size "  + lista.size());
+                System.out.println("Quiestion " + questionTimes + " Error " + error + " Ilosc pytan " + countOfQuestions);
+
+                questionList = MenuActivity.questionList.subList(0, 9);
+                List<Pytanie> lista = new ArrayList<>(questionList.size() * questionTimes);
+                for (Pytanie pytanie : questionList) {
+                    for (int i = 0; i < questionTimes; i++) {
+                        lista.add(pytanie);
+                    }
+                }
+                Collections.shuffle(lista.subList(1, lista.size()-1));
+                questionList = lista;
+
+                System.out.println("Lista size "  + lista.size());
+            }
+
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

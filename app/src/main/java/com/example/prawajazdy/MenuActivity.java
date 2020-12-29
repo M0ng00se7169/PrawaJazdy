@@ -47,6 +47,14 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void egzamin(View view) {
+        Intent intent = new Intent(MenuActivity.this, QuestionActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("Czy_egzamin", true);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    public void testy(View view) {
         Intent intent = new Intent(MenuActivity.this, MainActivity.class);
         startActivity(intent);
     }
