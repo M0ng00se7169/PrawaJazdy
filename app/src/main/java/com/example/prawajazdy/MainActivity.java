@@ -9,8 +9,11 @@ import android.content.Intent;
     import android.graphics.BitmapFactory;
     import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
+    import android.view.Menu;
+    import android.view.View;
+    import android.widget.Button;
+    import android.widget.EditText;
+    import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     TextView pytanie, odpowiedz;
     ImageView obrazek;
     ListView listViewPytania;
+    EditText pytanieTresc;
+    Button wyszukaj;
+    List<Pytanie> lista;
 
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database;
@@ -76,13 +82,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
-
-    public void logout(View view) {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(getApplicationContext(), Login.class));
-        finish();
-    }
-
-    }
+}
