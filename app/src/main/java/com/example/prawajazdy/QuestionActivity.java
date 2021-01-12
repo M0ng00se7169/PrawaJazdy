@@ -80,7 +80,8 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
             if (bundle.getBoolean("Czy_egzamin")) {
                 List<Pytanie> pytania = new ArrayList<>(10);
-                for (int i = 0; i < 10; i++) {
+                pytania.add(MenuActivity.questionList.get(0));
+                for (int i = 0; i < 9; i++) {
                     pytania.add(MenuActivity.questionList.get((int)(Math.random() * (MenuActivity.questionList.size() - 1))));
                 }
                 questionList = pytania;
@@ -92,7 +93,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
 
                 System.out.println("Quiestion " + questionTimes + " Error " + error + " Ilosc pytan " + countOfQuestions);
 
-                questionList = MenuActivity.questionList.subList(0, 9);
+                questionList = MenuActivity.questionList.subList(0, MenuActivity.questionList.size()-1);
                 List<Pytanie> lista = new ArrayList<>(questionList.size() * questionTimes);
                 for (Pytanie pytanie : questionList) {
                     for (int i = 0; i < questionTimes; i++) {

@@ -2,23 +2,39 @@ package com.example.prawajazdy;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewConfig {
     private Context context;
     private PytaniaAdapter adapter;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageReference;
 
     public PytaniaAdapter getAdapter() {
         return adapter;
@@ -50,6 +66,25 @@ public class RecyclerViewConfig {
         public void bind(Pytanie object, String key) {
             pytanie.setText(object.getPytanie());
             this.key = key;
+            fetchImage(object.getMedia().equals("") ? "" : object.getMedia());
+        }
+
+        public void fetchImage(String namePath) {
+            storageReference = storage.getReferenceFromUrl("gs://naukaprawjazdy.appspot.com/").child(namePath.equals("") ? "1" : namePath);
+            System.out.println(namePath);
+            try {
+                File file = File.createTempFile("image", "jpg");
+                storageReference.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                        image.setImageBitmap(bitmap);
+                    }
+                });
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+
         }
     }
 
@@ -73,6 +108,26 @@ public class RecyclerViewConfig {
         @Override
         public void onBindViewHolder(@NonNull PytanieItemView holder, int position) {
             holder.bind(mPytaniaList.get(position), mKeys.get(position));
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), QuestionDetail.class);
+                    intent.putExtra("image_url", mPytaniaList.get(position).getMedia());
+                    intent.putExtra("pytanie", mPytaniaList.get(position).getPytanie());
+
+                    if (mPytaniaList.get(position).getPoprawna_odp().equals("A") ||
+                            mPytaniaList.get(position).getPoprawna_odp().equals("T")) {
+                        intent.putExtra("odpowiedz", mPytaniaList.get(position).getOdpowiedz_A());
+                    } else if (mPytaniaList.get(position).getPoprawna_odp().equals("B   ") ||
+                            mPytaniaList.get(position).getPoprawna_odp().equals("N")) {
+                        intent.putExtra("odpowiedz", mPytaniaList.get(position).getOdpowiedz_B());
+                    } else {
+                        intent.putExtra("odpowiedz", mPytaniaList.get(position).getOdpowiedz_C());
+                    }
+                    v.getContext().startActivity(intent);
+                }
+            });
         }
 
         @Override
