@@ -78,6 +78,10 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
             Intent intent = getIntent();
             Bundle bundle = intent.getExtras();
 
+            questionTimes = bundle.getInt("countOfRepeats");
+            error = bundle.getInt("countOfRepeatsError");
+            countOfQuestions = bundle.getInt("countOfQuestions");
+
             if (bundle.getBoolean("Czy_egzamin")) {
                 List<Pytanie> pytania = new ArrayList<>(10);
                 pytania.add(MenuActivity.questionList.get(0));
@@ -87,9 +91,7 @@ public class QuestionActivity extends AppCompatActivity implements View.OnClickL
                 questionList = pytania;
             }
             else {
-                questionTimes = bundle.getInt("countOfRepeats");
-                error = bundle.getInt("countOfRepeatsError");
-                countOfQuestions = bundle.getInt("countOfQuestions");
+
 
                 System.out.println("Quiestion " + questionTimes + " Error " + error + " Ilosc pytan " + countOfQuestions);
 

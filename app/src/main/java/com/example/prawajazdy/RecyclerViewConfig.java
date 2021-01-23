@@ -116,14 +116,16 @@ public class RecyclerViewConfig {
                     intent.putExtra("image_url", mPytaniaList.get(position).getMedia());
                     intent.putExtra("pytanie", mPytaniaList.get(position).getPytanie());
 
-                    if (mPytaniaList.get(position).getPoprawna_odp().equals("A") ||
-                            mPytaniaList.get(position).getPoprawna_odp().equals("T")) {
+                    if (mPytaniaList.get(position).getPoprawna_odp().equals("A")) {
                         intent.putExtra("odpowiedz", mPytaniaList.get(position).getOdpowiedz_A());
-                    } else if (mPytaniaList.get(position).getPoprawna_odp().equals("B   ") ||
-                            mPytaniaList.get(position).getPoprawna_odp().equals("N")) {
+                    } else if (mPytaniaList.get(position).getPoprawna_odp().equals("B")) {
                         intent.putExtra("odpowiedz", mPytaniaList.get(position).getOdpowiedz_B());
-                    } else {
+                    } else if (mPytaniaList.get(position).getPoprawna_odp().equals("C")){
                         intent.putExtra("odpowiedz", mPytaniaList.get(position).getOdpowiedz_C());
+                    } else if (mPytaniaList.get(position).getPoprawna_odp().equals("T")) {
+                        intent.putExtra("odpowiedz", "Tak");
+                    } else {
+                        intent.putExtra("odpowiedz", "Nie");
                     }
                     v.getContext().startActivity(intent);
                 }

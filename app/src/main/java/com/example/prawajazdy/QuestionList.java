@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-public class PytanieList {
+public class QuestionList {
 
 
 }
