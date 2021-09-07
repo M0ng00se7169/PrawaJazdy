@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "986035496675",
+    "firebase_url": "https://naukaprawjazdy.firebaseio.com",
+    "project_id": "naukaprawjazdy",
+    "storage_bucket": "naukaprawjazdy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986035496675:android:20b2c092e45688021007d6",
+        "android_client_info": {
+          "package_name": "com.example.prawajazdy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "986035496675-ecbltmmptuov193mccfb7g6od82tn7hp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCju9AKdRgBb2s_Tfic_49ENGGwGOa0y8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "986035496675-ecbltmmptuov193mccfb7g6od82tn7hp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986035496675:android:c0e3d03eab31f1c2",
+        "android_client_info": {
+          "package_name": "com.quizapp.nickp.naukaprawjazdy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "986035496675-bp73a4d7bl2kefuh1o4c54md9fr38f6o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.quizapp.nickp.naukaprawjazdy",
+            "certificate_hash": "c756037b334ca7f962e913b79dd3d8b4847f2edc"
+          }
+        },
+        {
+          "client_id": "986035496675-ecbltmmptuov193mccfb7g6od82tn7hp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCju9AKdRgBb2s_Tfic_49ENGGwGOa0y8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "986035496675-ecbltmmptuov193mccfb7g6od82tn7hp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
